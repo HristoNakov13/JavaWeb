@@ -1,8 +1,10 @@
 Java Web module:
 <br/>
+<br/>
 Web basics - https://softuni.bg/trainings/2445/java-web-basics-september-2019
 <br/>
 Spring - https://softuni.bg/trainings/2628/java-mvc-frameworks-spring-november-2019
+<br/>
 <br/>
 Web basics courses: 
 
