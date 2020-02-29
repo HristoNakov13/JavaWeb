@@ -1,9 +1,11 @@
 package factory;
 
+import http.HttpCookie;
 import http.request.HttpRequest;
 import http.request.HttpRequestImpl;
 import http.response.HttpResponse;
 import http.response.HttpResponseImpl;
+import util.CookieParser;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,14 +19,18 @@ public class HttpFactoryImpl implements HttpFactory {
     private final int OK = 200;
     private Map<Integer, String> ERROR_CODE_MESSAGES;
     private Base64.Decoder decoder;
+    private CookieParser cookieParser;
 
-    public HttpFactoryImpl() {
-        ERROR_CODE_MESSAGES = new HashMap<>();
-        decoder = Base64.getDecoder();
+    public HttpFactoryImpl(CookieParser cookieParser) {
+        this.cookieParser = cookieParser;
+
         this.init();
     }
 
     private void init() {
+        ERROR_CODE_MESSAGES = new HashMap<>();
+        decoder = Base64.getDecoder();
+
         ERROR_CODE_MESSAGES.put(NOT_FOUND, "The requested functionality was not found.");
         ERROR_CODE_MESSAGES.put(BAD_REQUEST, "There was an error with the requested functionality due to malformed request.");
         ERROR_CODE_MESSAGES.put(UNAUTHORIZED, "You are not authorized to access the requested functionality.");
@@ -47,6 +53,9 @@ public class HttpFactoryImpl implements HttpFactory {
                     String[] kvpData = kvp.split("=");
                     request.addBodyParameter(kvpData[0], kvpData[1]);
                 });
+
+        Set<HttpCookie> cookies = this.getHttpCookies(request.getHeaders().get("Cookie"));
+        request.setCookies(new HashSet<>(cookies));
 
         return request;
     }
@@ -124,5 +133,33 @@ public class HttpFactoryImpl implements HttpFactory {
 
     private String decodeUsername(String encodedUsername) {
         return new String(this.decoder.decode(encodedUsername.getBytes()));
+    }
+
+    private Set<HttpCookie> getHttpCookies(String cookieHeader) {
+        if (cookieHeader == null) {
+            return new HashSet<>();
+        }
+
+        Set<HttpCookie> cookies = new HashSet<>();
+        String[] kvp = this.cookieParser.parseCookie(cookieHeader);
+
+        StringBuilder print = new StringBuilder();
+
+        Arrays.stream(kvp).forEach(pair -> {
+            String[] cookieData = pair.split(" <-> ");
+            String key = cookieData[0];
+            String value = cookieData[1];
+
+            print.append(pair).append(System.lineSeparator());
+            cookies.add(createHttpCookie(key, value));
+        });
+
+        System.out.println(print.toString());
+
+        return cookies;
+    }
+
+    private HttpCookie createHttpCookie(String key, String value) {
+        return new HttpCookie(key, value);
     }
 }

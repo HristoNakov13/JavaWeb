@@ -2,6 +2,7 @@ import factory.HttpFactory;
 import factory.HttpFactoryImpl;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
+import util.CookieParser;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,7 +22,9 @@ public class Application {
 
         List<String> body = Arrays.asList(scanner.nextLine().split("&"));
 
-        HttpFactory factory = new HttpFactoryImpl();
+        CookieParser cookieParser = new CookieParser();
+        HttpFactory factory = new HttpFactoryImpl(cookieParser);
+
         HttpRequest request = factory.getRequest(requestLine, headers, body);
         HttpResponse response = factory.getResponse(supportedRoutes, request);
 

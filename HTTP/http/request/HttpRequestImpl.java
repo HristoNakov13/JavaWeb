@@ -1,12 +1,16 @@
 package http.request;
 
+import http.HttpCookie;
+
 import java.util.HashMap;
+import java.util.Set;
 
 public class HttpRequestImpl implements HttpRequest {
     private HashMap<String, String> headers;
     private HashMap<String, String> bodyParameters;
     private String method;
     private String requestUrl;
+    private Set<HttpCookie> cookies;
 
     public HttpRequestImpl() {
         this.headers = new HashMap<>();
@@ -51,6 +55,17 @@ public class HttpRequestImpl implements HttpRequest {
     @Override
     public void addBodyParameter(String parameter, String value) {
         this.bodyParameters.put(parameter, value);
+    }
+
+    @Override
+    public Set<HttpCookie> getCookies() {
+        return this.cookies;
+    }
+
+    @Override
+    public void setCookies(Set<HttpCookie> cookies) {
+        this.cookies = cookies;
+
     }
 
     @Override
