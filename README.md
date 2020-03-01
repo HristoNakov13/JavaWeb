@@ -8,7 +8,7 @@ Spring - https://softuni.bg/trainings/2628/java-mvc-frameworks-spring-november-2
 Web basics courses: 
 
 * [Web Fundamentals Introduction](https://github.com/HristoNakov13/JavaWeb/tree/master/Web%20Fundamentals%20Introduction)
-* [HTTP Protocol](https://github.com/HristoNakov13/JavaWeb/tree/master/HTTP)
+* [HTTP And State Management](https://github.com/HristoNakov13/JavaWeb/tree/master/HTTP)
 * Front-End Basics
 * Introduction to Java EE
 * Java EE: Servlet API 4.0
