@@ -9,8 +9,7 @@ Web basics courses:
 
 * [Web Fundamentals Introduction](https://github.com/HristoNakov13/JavaWeb/tree/master/Web%20Fundamentals%20Introduction)
 * [HTTP And State Management](https://github.com/HristoNakov13/JavaWeb/tree/master/HTTP)
-* Front-End Basics
-* Introduction to Java EE
+* [Introduction to Java EE](https://github.com/HristoNakov13/JavaWeb/tree/master/Introduction%20to%20JavaEE)
 * Java EE: Servlet API 4.0
 * Java EE: Javaserver Pages
 * Java EE: Javaserver Faces
