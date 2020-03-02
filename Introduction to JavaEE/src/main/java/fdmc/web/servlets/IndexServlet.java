@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 
 @WebServlet("/")
 public class IndexServlet extends HttpServlet {
+    private final String INDEX_PAGE_PATH = "C:\\Users\\Username\\Desktop\\fdmc\\src\\main\\resources\\views\\index.html";
     private final HtmlReader htmlReader;
 
     @Inject
@@ -23,8 +24,7 @@ public class IndexServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter printWriter = resp.getWriter();
-
-        String fileContent = htmlReader.getFileContent("C:\\Users\\Username\\Desktop\\fdmc\\src\\main\\resources\\views\\index.html");
+        String fileContent = htmlReader.getFileContent(INDEX_PAGE_PATH);
 
         printWriter.println(fileContent);
     }

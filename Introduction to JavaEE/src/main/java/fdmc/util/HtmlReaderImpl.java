@@ -4,8 +4,8 @@ import java.io.*;
 
 public class HtmlReaderImpl implements HtmlReader {
     @Override
-    public String getFileContent(String filePath) throws IOException {
-        File htmlFile = new File(filePath);
+    public String getFileContent(String fileName) throws IOException {
+        File htmlFile = new File(fileName);
 
         BufferedReader bfr = new BufferedReader(new FileReader(htmlFile));
 
