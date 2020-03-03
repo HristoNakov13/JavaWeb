@@ -1,0 +1,8 @@
+.createProduct span{
+    display: block;
+    padding: 5px;
+}
+
+.createProduct {
+    text-align: center;
+}
