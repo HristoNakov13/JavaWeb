@@ -12,5 +12,5 @@ Web basics courses:
 * [Introduction to Java EE](https://github.com/HristoNakov13/JavaWeb/tree/master/Introduction%20to%20JavaEE)
 * [Java EE: Servlet API 4.0](https://github.com/HristoNakov13/JavaWeb/tree/master/Java%20EE%20Servlet%20API%204.0)
 * [Java EE: Javaserver Pages](https://github.com/HristoNakov13/JavaWeb/tree/master/Java%20EE%20Javaserver%20Pages)
-* Java EE: Javaserver Faces
+* [Java EE: Javaserver Faces](https://github.com/HristoNakov13/JavaWeb/tree/master/Java%20EE%20Javaserver%20Faces)
 * Java EE: Javaserver Faces - Libraries, Tags and Templates
