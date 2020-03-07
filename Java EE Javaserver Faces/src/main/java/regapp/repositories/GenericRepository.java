@@ -9,4 +9,6 @@ public interface GenericRepository<Entity, Id> {
     List<Entity> findAll();
 
     Optional<Entity> findById(Id id);
+
+    void deleteById(Id id);
 }

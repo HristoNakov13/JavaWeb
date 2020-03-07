@@ -12,7 +12,7 @@ public class Position extends BaseEntity {
     public Position() {
     }
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     public String getName() {
         return name;
     }

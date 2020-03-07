@@ -3,7 +3,6 @@ package regapp.repositories.implementations;
 import regapp.repositories.GenericRepository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,11 +10,9 @@ public abstract class GenericRepositoryImpl<Entity, Id> implements GenericReposi
     private EntityManager entityManager;
     private Class<Entity> clazz;
 
-    public GenericRepositoryImpl(Class<Entity> clazz) {
+    public GenericRepositoryImpl(EntityManager entityManager, Class<Entity> clazz) {
         this.clazz = clazz;
-        this.entityManager = Persistence
-                .createEntityManagerFactory("metube")
-                .createEntityManager();
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -49,6 +46,18 @@ public abstract class GenericRepositoryImpl<Entity, Id> implements GenericReposi
         return Optional.ofNullable(this.entityManager.createQuery(queryString, this.clazz)
                 .setParameter("id", id)
                 .getSingleResult());
+    }
+
+    public void deleteById(Id id) {
+        Entity entity = this.findById(id).get();
+
+        this.entityManager.getTransaction().begin();
+        this.entityManager.remove(entity);
+        this.entityManager.getTransaction().commit();
+    }
+
+    protected EntityManager getEntityManager() {
+        return this.entityManager;
     }
 
     private String getEntityName() {
