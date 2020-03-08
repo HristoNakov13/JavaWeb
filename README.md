@@ -14,3 +14,17 @@ Web basics courses:
 * [Java EE: Javaserver Pages](https://github.com/HristoNakov13/JavaWeb/tree/master/Java%20EE%20Javaserver%20Pages)
 * [Java EE: Javaserver Faces](https://github.com/HristoNakov13/JavaWeb/tree/master/Java%20EE%20Javaserver%20Faces)
 * Java EE: Javaserver Faces - Libraries, Tags and Templates
+<br/>
+<br/>
+Spring MVC courses:
+<br/>
+<br/>
+* [Spring Boot Introduction](https://github.com/HristoNakov13/JavaWeb/tree/master/Spring%20Boot%20Introduction)
+* Exercise: Spring Boot Introduction
+* Spring Essentials
+* Unit Testing & Isolation
+* Thymeleaf & Controllers
+* JS & AJAX (jquery)
+* Filters & User Authentication
+* Integration Testing
+
