@@ -17,8 +17,7 @@ Web basics courses:
 <br/>
 <br/>
 Spring MVC courses:
-<br/>
-<br/>
+
 * [Spring Boot Introduction](https://github.com/HristoNakov13/JavaWeb/tree/master/Spring%20Boot%20Introduction)
 * Exercise: Spring Boot Introduction
 * Spring Essentials
