@@ -15,8 +15,8 @@ Web basics courses:
 * [Java EE: Javaserver Faces](https://github.com/HristoNakov13/JavaWeb/tree/master/Java%20EE%20Javaserver%20Faces)
 * Java EE: Javaserver Faces - Libraries, Tags and Templates
 <br/>
-<br/>
 Spring MVC courses:
+
 
 * [Spring Boot Introduction](https://github.com/HristoNakov13/JavaWeb/tree/master/Spring%20Boot%20Introduction)
 * Exercise: Spring Boot Introduction
