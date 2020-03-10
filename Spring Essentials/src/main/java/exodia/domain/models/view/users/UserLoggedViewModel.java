@@ -1,4 +1,4 @@
-package exodia.domain.models.view;
+package exodia.domain.models.view.users;
 
 public class UserLoggedViewModel {
     private String username;

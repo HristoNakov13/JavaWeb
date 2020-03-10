@@ -1,4 +1,4 @@
-package exodia.domain.models.binding;
+package exodia.domain.models.binding.users;
 
 public class UserRegisterBindingModel {
     private String username;

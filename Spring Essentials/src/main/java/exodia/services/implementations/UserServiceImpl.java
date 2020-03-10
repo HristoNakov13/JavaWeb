@@ -1,12 +1,12 @@
 package exodia.services.implementations;
 
 import exodia.domain.entities.User;
-import exodia.domain.models.binding.UserLoginBindingModel;
-import exodia.domain.models.binding.UserRegisterBindingModel;
-import exodia.domain.models.view.UserLoggedViewModel;
+import exodia.domain.models.binding.users.UserLoginBindingModel;
+import exodia.domain.models.binding.users.UserRegisterBindingModel;
+import exodia.domain.models.view.users.UserLoggedViewModel;
 import exodia.repositories.UserRepository;
 import exodia.services.UserService;
-import exodia.util.ThrowMessages;
+import exodia.util.messages.ThrowMessages;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +24,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(UserRegisterBindingModel user) {
+        if (!this.hasMatchingPasswords(user.getPassword(), user.getConfirmPassword())) {
+            throw new IllegalArgumentException(ThrowMessages.PASSWORD_CONFIRM_PASSWORD_MISMATCH);
+        }
+
         if (this.isTakenUsername(user.getUsername())) {
             throw new IllegalArgumentException(ThrowMessages.USERNAME_TAKEN);
         }
@@ -39,13 +43,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserLoggedViewModel login(UserLoginBindingModel user) {
-        User userEntity = this.userRepository.findByUsernameAndEmail(user.getUsername(), user.getPassword());
+        User userEntity = this.userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
 
         if (this.hasWrongCredentials(userEntity)) {
             throw new IllegalArgumentException(ThrowMessages.INVALID_CREDENTIALS);
         }
 
         return this.modelMapper.map(userEntity, UserLoggedViewModel.class);
+    }
+
+    private boolean hasMatchingPasswords(String password, String confirmPassword) {
+        return password.equals(confirmPassword);
     }
 
     private boolean isTakenUsername(String username) {
