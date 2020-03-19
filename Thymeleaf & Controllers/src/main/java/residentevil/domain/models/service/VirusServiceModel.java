@@ -1,16 +1,13 @@
-package residentevil.domain.entities;
+package residentevil.domain.models.service;
 
 import residentevil.domain.entities.enums.Creator;
 import residentevil.domain.entities.enums.Magnitude;
 import residentevil.domain.entities.enums.Mutation;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Entity
-@Table(name = "viruses")
-public class Virus extends BaseEntity {
+public class VirusServiceModel {
 
     private String name;
     private String description;
@@ -23,12 +20,11 @@ public class Virus extends BaseEntity {
     private Integer hoursUntilTurn;
     private Magnitude magnitude;
     private LocalDate releasedOn;
-    private Set<Capital> capitals;
+    private Set<CapitalServiceModel> capitals;
 
-    public Virus() {
+    public VirusServiceModel() {
     }
 
-    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -37,7 +33,6 @@ public class Virus extends BaseEntity {
         this.name = name;
     }
 
-    @Column(name = "description")
     public String getDescription() {
         return description;
     }
@@ -46,7 +41,6 @@ public class Virus extends BaseEntity {
         this.description = description;
     }
 
-    @Column(name = "side_effects")
     public String getSideEffects() {
         return sideEffects;
     }
@@ -55,8 +49,6 @@ public class Virus extends BaseEntity {
         this.sideEffects = sideEffects;
     }
 
-    @Column(name = "creator")
-    @Enumerated(EnumType.ORDINAL)
     public Creator getCreator() {
         return creator;
     }
@@ -65,7 +57,6 @@ public class Virus extends BaseEntity {
         this.creator = creator;
     }
 
-    @Column(name = "is_deadly")
     public Boolean getDeadly() {
         return isDeadly;
     }
@@ -74,7 +65,6 @@ public class Virus extends BaseEntity {
         isDeadly = deadly;
     }
 
-    @Column(name = "is_curable")
     public Boolean getCurable() {
         return isCurable;
     }
@@ -83,8 +73,6 @@ public class Virus extends BaseEntity {
         isCurable = curable;
     }
 
-    @Column(name = "mutation")
-    @Enumerated(EnumType.ORDINAL)
     public Mutation getMutation() {
         return mutation;
     }
@@ -93,7 +81,6 @@ public class Virus extends BaseEntity {
         this.mutation = mutation;
     }
 
-    @Column(name = "turnover_rate")
     public Integer getTurnoverRate() {
         return turnoverRate;
     }
@@ -102,7 +89,6 @@ public class Virus extends BaseEntity {
         this.turnoverRate = turnoverRate;
     }
 
-    @Column(name = "hours_until_turn")
     public Integer getHoursUntilTurn() {
         return hoursUntilTurn;
     }
@@ -111,8 +97,6 @@ public class Virus extends BaseEntity {
         this.hoursUntilTurn = hoursUntilTurn;
     }
 
-    @Column(name = "magnitude")
-    @Enumerated(EnumType.ORDINAL)
     public Magnitude getMagnitude() {
         return magnitude;
     }
@@ -121,7 +105,6 @@ public class Virus extends BaseEntity {
         this.magnitude = magnitude;
     }
 
-    @Column(name = "released_on")
     public LocalDate getReleasedOn() {
         return releasedOn;
     }
@@ -130,17 +113,11 @@ public class Virus extends BaseEntity {
         this.releasedOn = releasedOn;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "viruses_capitals",
-            joinColumns = @JoinColumn(name = "virus_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "capital_id", referencedColumnName = "id")
-    )
-    public Set<Capital> getCapitals() {
+    public Set<CapitalServiceModel> getCapitals() {
         return capitals;
     }
 
-    public void setCapitals(Set<Capital> capitals) {
+    public void setCapitals(Set<CapitalServiceModel> capitals) {
         this.capitals = capitals;
     }
 }

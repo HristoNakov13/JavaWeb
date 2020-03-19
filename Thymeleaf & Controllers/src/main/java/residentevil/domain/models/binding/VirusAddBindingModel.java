@@ -1,16 +1,15 @@
-package residentevil.domain.entities;
+package residentevil.domain.models.binding;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import residentevil.domain.entities.enums.Creator;
 import residentevil.domain.entities.enums.Magnitude;
 import residentevil.domain.entities.enums.Mutation;
 
-import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Entity
-@Table(name = "viruses")
-public class Virus extends BaseEntity {
+public class VirusAddBindingModel {
 
     private String name;
     private String description;
@@ -23,12 +22,13 @@ public class Virus extends BaseEntity {
     private Integer hoursUntilTurn;
     private Magnitude magnitude;
     private LocalDate releasedOn;
-    private Set<Capital> capitals;
+    private Set<String> capitals;
 
-    public Virus() {
+    public VirusAddBindingModel() {
     }
 
-    @Column(name = "name")
+    @NotNull
+    @Size(min = 3, max = 10, message = "Invalid name")
     public String getName() {
         return name;
     }
@@ -37,7 +37,8 @@ public class Virus extends BaseEntity {
         this.name = name;
     }
 
-    @Column(name = "description")
+    @NotNull
+    @Size(min = 5, max = 100, message = "Invalid description")
     public String getDescription() {
         return description;
     }
@@ -46,7 +47,8 @@ public class Virus extends BaseEntity {
         this.description = description;
     }
 
-    @Column(name = "side_effects")
+    @NotNull
+    @Size(max = 50, message = "Invalid side effects")
     public String getSideEffects() {
         return sideEffects;
     }
@@ -55,8 +57,7 @@ public class Virus extends BaseEntity {
         this.sideEffects = sideEffects;
     }
 
-    @Column(name = "creator")
-    @Enumerated(EnumType.ORDINAL)
+    @NotNull
     public Creator getCreator() {
         return creator;
     }
@@ -65,7 +66,6 @@ public class Virus extends BaseEntity {
         this.creator = creator;
     }
 
-    @Column(name = "is_deadly")
     public Boolean getDeadly() {
         return isDeadly;
     }
@@ -74,7 +74,6 @@ public class Virus extends BaseEntity {
         isDeadly = deadly;
     }
 
-    @Column(name = "is_curable")
     public Boolean getCurable() {
         return isCurable;
     }
@@ -83,8 +82,7 @@ public class Virus extends BaseEntity {
         isCurable = curable;
     }
 
-    @Column(name = "mutation")
-    @Enumerated(EnumType.ORDINAL)
+    @NotNull
     public Mutation getMutation() {
         return mutation;
     }
@@ -93,7 +91,9 @@ public class Virus extends BaseEntity {
         this.mutation = mutation;
     }
 
-    @Column(name = "turnover_rate")
+    @NotNull(message = "Turnover cannot be null")
+    @Min(value = 0, message = "Min value 0")
+    @Max(value = 100, message = "Max value 100")
     public Integer getTurnoverRate() {
         return turnoverRate;
     }
@@ -102,7 +102,9 @@ public class Virus extends BaseEntity {
         this.turnoverRate = turnoverRate;
     }
 
-    @Column(name = "hours_until_turn")
+    @NotNull(message = "Hours until turn cannot be null")
+    @Min(value = 1, message = "Min value 1")
+    @Max(value = 12, message = "Max value 12")
     public Integer getHoursUntilTurn() {
         return hoursUntilTurn;
     }
@@ -111,8 +113,6 @@ public class Virus extends BaseEntity {
         this.hoursUntilTurn = hoursUntilTurn;
     }
 
-    @Column(name = "magnitude")
-    @Enumerated(EnumType.ORDINAL)
     public Magnitude getMagnitude() {
         return magnitude;
     }
@@ -121,7 +121,8 @@ public class Virus extends BaseEntity {
         this.magnitude = magnitude;
     }
 
-    @Column(name = "released_on")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Past(message = "Date should be in the past")
     public LocalDate getReleasedOn() {
         return releasedOn;
     }
@@ -130,17 +131,11 @@ public class Virus extends BaseEntity {
         this.releasedOn = releasedOn;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "viruses_capitals",
-            joinColumns = @JoinColumn(name = "virus_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "capital_id", referencedColumnName = "id")
-    )
-    public Set<Capital> getCapitals() {
+    public Set<String> getCapitals() {
         return capitals;
     }
 
-    public void setCapitals(Set<Capital> capitals) {
+    public void setCapitals(Set<String> capitals) {
         this.capitals = capitals;
     }
 }

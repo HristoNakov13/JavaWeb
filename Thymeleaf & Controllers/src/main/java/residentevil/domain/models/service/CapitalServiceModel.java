@@ -1,21 +1,23 @@
-package residentevil.domain.entities;
+package residentevil.domain.models.service;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+public class CapitalServiceModel {
 
-@Entity
-@Table(name = "capitals")
-public class Capital  extends BaseEntity {
-
+    private String id;
     private String name;
     private String latitude;
     private String longitude;
 
-    public Capital() {
+    public CapitalServiceModel() {
     }
 
-    @Column(name = "name")
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -24,7 +26,6 @@ public class Capital  extends BaseEntity {
         this.name = name;
     }
 
-    @Column(name = "latitude")
     public String getLatitude() {
         return latitude;
     }
@@ -33,7 +34,6 @@ public class Capital  extends BaseEntity {
         this.latitude = latitude;
     }
 
-    @Column(name = "longitude")
     public String getLongitude() {
         return longitude;
     }

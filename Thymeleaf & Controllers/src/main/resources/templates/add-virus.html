@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Viruses</title>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<div class="container-fluid">
+    <header>
+        <th:block th:include="~{fragments/navbar}"></th:block>
+    </header>
+    <main>
+        <div class="jumbotron">
+            <h1>Spread a new virus!</h1>
+            <form th:action="@{/viruses/add}" th:method="POST" th:object="${bindingModel}">
+                <div class="form-group" th:classappend="${#fields.hasErrors('name')} ? 'text-danger'">
+                    <label for="virusName">Name</label>
+                    <input type="text" class="form-control" id="virusName" th:field="*{name}">
+                    <small th:each="error: ${#fields.errors('name')}" th:text="${error}"></small>
+                </div>
+                <div class="form-group" th:classappend="${#fields.hasErrors('description')} ? 'text-danger'">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" rows="3" th:field="*{description}"></textarea>
+                    <small th:each="error: ${#fields.errors('description')}" th:text="${error}"></small>
+                </div>
+                <div class="form-group" th:classappend="${#fields.hasErrors('sideEffects')} ? 'text-danger'">
+                    <label for="sideEffects">Side Effects</label>
+                    <input type="text" class="form-control" id="sideEffects" th:field="*{sideEffects}">
+                    <small th:each="error: ${#fields.errors('sideEffects')}" th:text="${error}"></small>
+                </div>
+                <div class="form-group">
+                    <label for="creator">Creator</label>
+                    <input type="text" class="form-control" id="creator" th:field="*{creator}">
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="isDeadly" th:field="*{deadly}">
+                            <label class="form-check-label" for="isDeadly">
+                                Is Deadly?
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="isCurable" th:field="*{curable}">
+                            <label class="form-check-label" for="isCurable">
+                                Is Curable?
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <div class="form-check" th:each="mutation: ${mutations}">
+                            <input class="form-check-input" type="radio" th:field="*{mutation}" id="mutation"
+                                   th:value="${mutation}" checked >
+                            <label class="form-check-label" for="mutation" th:text="${mutation}"></label>
+                        </div>
+                        <div class="form-check disabled">
+                            <input class="form-check-input" type="radio" name="gridRadios" id="saveHumanity"
+                                   value="option3" disabled>
+                            <label class="form-check-label" for="saveHumanity">
+                                Save Humanity
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" th:classappend="${#fields.hasErrors('turnoverRate')} ? 'text-danger'">
+                    <label for="turnoverRate">Turnover Rate</label>
+                    <input type="number" class="form-control" id="turnoverRate" th:field="*{turnoverRate}">
+                    <small th:each="error: ${#fields.errors('turnoverRate')}" th:text="${error}"></small>
+                </div>
+                <div class="form-group" th:classappend="${#fields.hasErrors('hoursUntilTurn')} ? 'text-danger'">
+                    <label for="hoursUntilTurn">Hours Until Turn</label>
+                    <input type="number" class="form-control" id="hoursUntilTurn" th:field="*{hoursUntilTurn}">
+                    <small th:each="error: ${#fields.errors('hoursUntilTurn')}" th:text="${error}"></small>
+                </div>
+                <div class="form-group">
+                    <label for="magnitudes">Magnitude</label>
+                    <select class="form-control" id="magnitudes" name="magnitude" th:field="*{magnitude}">
+                        <option th:each="magnitude: ${magnitudes}" th:value="${magnitude}" th:text="${magnitude}" ></option>
+                    </select>
+                </div>
+                <div class="form-group" th:classappend="${#fields.hasErrors('releasedOn')} ? 'text-danger'">
+                    <label for="releasedOn">Release Date</label>
+                    <input type="date" class="form-control" id="releasedOn" th:field="*{releasedOn}">
+                    <small th:each="error: ${#fields.errors('releasedOn')}" th:text="${error}"></small>
+                </div>
+                <div class="form-group">
+                    <label for="capitals">Affected Capitals</label>
+                    <select multiple class="form-control" id="capitals" th:field="*{capitals}">
+                        <option th:each="capital: ${capitals}" th:value="${capital.id}" th:text="${capital.name}" ></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary">Spread Virus</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>
