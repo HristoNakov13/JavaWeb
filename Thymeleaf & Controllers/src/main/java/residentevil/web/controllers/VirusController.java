@@ -5,21 +5,21 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.spi.MappingContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import residentevil.domain.entities.enums.Magnitude;
 import residentevil.domain.entities.enums.Mutation;
 import residentevil.domain.models.binding.VirusAddBindingModel;
+import residentevil.domain.models.binding.VirusEditBindingModel;
 import residentevil.domain.models.service.CapitalServiceModel;
 import residentevil.domain.models.service.VirusServiceModel;
 import residentevil.domain.models.view.CapitalAddViewModel;
+import residentevil.domain.models.view.VirusAllViewModel;
 import residentevil.services.CapitalService;
 import residentevil.services.VirusService;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -57,6 +57,49 @@ public class VirusController extends BaseController {
         this.virusService.save(this.modelMapper.map(bindingModel, VirusServiceModel.class));
 
         return super.redirect("/", modelAndView);
+    }
+
+    @GetMapping("")
+    public ModelAndView viruses(ModelAndView modelAndView) {
+        List<VirusAllViewModel> viruses = this.virusService
+                .getAllViruses()
+                .stream()
+                .map(virus -> this.modelMapper.map(virus, VirusAllViewModel.class))
+                .collect(Collectors.toList());
+
+        modelAndView.addObject("viruses", viruses);
+
+        return super.view("all-viruses", modelAndView);
+    }
+
+    @GetMapping("/edit/{id}")
+    public ModelAndView editVirus(@PathVariable(value = "id") String virusId, ModelAndView modelAndView) {
+        VirusEditBindingModel bindingModel = this.modelMapper.map(this.virusService.getVirusById(virusId), VirusEditBindingModel.class);
+        modelAndView.addObject("bindingModel", bindingModel);
+        this.addModelAndViewObjects(modelAndView);
+
+        return super.view("edit-virus", modelAndView);
+    }
+
+    @PostMapping("/edit/{id}")
+    public ModelAndView postEditVirus(@Valid @ModelAttribute("bindingModel") VirusEditBindingModel bindingModel, @PathVariable(value = "id") String virusId, BindingResult bindingResult, ModelAndView modelAndView) {
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("bindingModel", bindingModel);
+            this.addModelAndViewObjects(modelAndView);
+
+            return view("edit-virus", modelAndView);
+        }
+
+        this.virusService.save(this.modelMapper.map(bindingModel, VirusServiceModel.class));
+
+        return super.redirect("/viruses");
+    }
+
+    @PostMapping("/delete/{id}")
+    public ModelAndView deleteVirus(@PathVariable(value = "id") String virusId) {
+        this.virusService.deleteVirusById(virusId);
+
+        return super.redirect("/viruses");
     }
 
     private ModelAndView addModelAndViewObjects(ModelAndView modelAndView) {

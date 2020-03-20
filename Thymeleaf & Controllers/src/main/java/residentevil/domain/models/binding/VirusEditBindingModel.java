@@ -1,13 +1,18 @@
-package residentevil.domain.models.service;
+package residentevil.domain.models.binding;
 
 import residentevil.domain.entities.enums.Creator;
 import residentevil.domain.entities.enums.Magnitude;
 import residentevil.domain.entities.enums.Mutation;
+import residentevil.domain.models.service.CapitalServiceModel;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Set;
 
-public class VirusServiceModel {
+public class VirusEditBindingModel {
 
     private String id;
     private String name;
@@ -23,9 +28,11 @@ public class VirusServiceModel {
     private LocalDate releasedOn;
     private Set<CapitalServiceModel> capitals;
 
-    public VirusServiceModel() {
+    public VirusEditBindingModel() {
     }
 
+    @NotNull
+    @Size(min = 3, max = 10, message = "Invalid name")
     public String getName() {
         return name;
     }
@@ -34,6 +41,8 @@ public class VirusServiceModel {
         this.name = name;
     }
 
+    @NotNull
+    @Size(min = 5, max = 100, message = "Invalid description")
     public String getDescription() {
         return description;
     }
@@ -42,6 +51,8 @@ public class VirusServiceModel {
         this.description = description;
     }
 
+    @NotNull
+    @Size(max = 50, message = "Invalid side effects")
     public String getSideEffects() {
         return sideEffects;
     }
@@ -50,6 +61,7 @@ public class VirusServiceModel {
         this.sideEffects = sideEffects;
     }
 
+    @NotNull
     public Creator getCreator() {
         return creator;
     }
@@ -74,6 +86,7 @@ public class VirusServiceModel {
         isCurable = curable;
     }
 
+    @NotNull
     public Mutation getMutation() {
         return mutation;
     }
@@ -82,6 +95,9 @@ public class VirusServiceModel {
         this.mutation = mutation;
     }
 
+    @NotNull(message = "Turnover cannot be null")
+    @Min(value = 0, message = "Min value 0")
+    @Max(value = 100, message = "Max value 100")
     public Integer getTurnoverRate() {
         return turnoverRate;
     }
@@ -90,6 +106,9 @@ public class VirusServiceModel {
         this.turnoverRate = turnoverRate;
     }
 
+    @NotNull(message = "Hours until turn cannot be null")
+    @Min(value = 1, message = "Min value 1")
+    @Max(value = 12, message = "Max value 12")
     public Integer getHoursUntilTurn() {
         return hoursUntilTurn;
     }
@@ -106,14 +125,6 @@ public class VirusServiceModel {
         this.magnitude = magnitude;
     }
 
-    public LocalDate getReleasedOn() {
-        return releasedOn;
-    }
-
-    public void setReleasedOn(LocalDate releasedOn) {
-        this.releasedOn = releasedOn;
-    }
-
     public Set<CapitalServiceModel> getCapitals() {
         return capitals;
     }
@@ -128,5 +139,13 @@ public class VirusServiceModel {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public LocalDate getReleasedOn() {
+        return releasedOn;
+    }
+
+    public void setReleasedOn(LocalDate releasedOn) {
+        this.releasedOn = releasedOn;
     }
 }
