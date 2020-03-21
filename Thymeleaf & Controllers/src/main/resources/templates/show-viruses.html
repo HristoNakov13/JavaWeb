@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>All Viruses</title>
+    <th:block th:include="~{fragments/head.html}"></th:block>
+    <script type="module" src="/js/viruses-capitals-events.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <header>
+        <th:block th:include="~{fragments/navbar.html}"></th:block>
+    </header>
+    <main>
+        <div class="jumbotron-fluid">
+            <h1 id="contentType">Your Choice</h1>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="viruses" id="showViruses" value="option1">
+                <label class="form-check-label" for="showViruses">Viruses</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="capitals" id="showCapitals" value="option2">
+                <label class="form-check-label" for="showCapitals">Capitals</label>
+            </div>
+            <table class="table" id="content">
+            </table>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

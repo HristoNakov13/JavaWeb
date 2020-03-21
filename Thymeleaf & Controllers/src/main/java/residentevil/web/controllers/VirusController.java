@@ -69,7 +69,7 @@ public class VirusController extends BaseController {
 
         modelAndView.addObject("viruses", viruses);
 
-        return super.view("all-viruses", modelAndView);
+        return super.view("show-viruses", modelAndView);
     }
 
     @GetMapping("/edit/{id}")
