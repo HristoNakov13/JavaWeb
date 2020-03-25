@@ -19,7 +19,6 @@ public class CapitalServiceImpl implements residentevil.services.CapitalService 
         this.modelMapper = modelMapper;
     }
 
-
     @Override
     public List<CapitalServiceModel> getAllCapitals() {
         return this.capitalRepository

@@ -33,7 +33,6 @@ function getRowContent(column) {
 }
 
 function fillCapitalTemplate(capitals) {
-    console.log(capitals);
     const columns = Object.keys(capitals[0]);
 
     const tableHead = `<thead><tr>${columns.map(column => `<th scope="col">${column}</th>`)}</tr></thead>`;
