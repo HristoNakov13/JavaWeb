@@ -21,7 +21,7 @@ Spring MVC courses:
 * [Spring Essentials](https://github.com/HristoNakov13/JavaWeb/tree/master/Spring%20Essentials)
 * [Unit Testing & Isolation](https://github.com/HristoNakov13/JavaWeb/tree/master/Unit%20Testing%20%26%20Isolation)
 * [Thymeleaf & Controllers](https://github.com/HristoNakov13/JavaWeb/tree/master/Thymeleaf%20%26%20Controllers)
-* JS & AJAX (jquery)
+* [JS & AJAX (jquery)](https://github.com/HristoNakov13/JavaWeb/tree/master/Thymeleaf%20%26%20Controllers)
 * Filters & User Authentication
 * Integration Testing
 
