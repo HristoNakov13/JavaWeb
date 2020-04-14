@@ -5,7 +5,7 @@ import residentevil.domain.models.service.VirusServiceModel;
 import java.util.List;
 
 public interface VirusService {
-    void save(VirusServiceModel virus);
+    VirusServiceModel save(VirusServiceModel virus);
 
     List<VirusServiceModel> getAllViruses();
 

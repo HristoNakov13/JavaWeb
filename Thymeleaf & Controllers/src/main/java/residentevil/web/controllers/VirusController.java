@@ -14,7 +14,7 @@ import residentevil.domain.models.binding.VirusEditBindingModel;
 import residentevil.domain.models.service.CapitalServiceModel;
 import residentevil.domain.models.service.VirusServiceModel;
 import residentevil.domain.models.view.CapitalAddViewModel;
-import residentevil.domain.models.view.VirusAllViewModel;
+import residentevil.domain.models.view.VirusListViewModel;
 import residentevil.services.CapitalService;
 import residentevil.services.VirusService;
 
@@ -61,10 +61,10 @@ public class VirusController extends BaseController {
 
     @GetMapping("")
     public ModelAndView viruses(ModelAndView modelAndView) {
-        List<VirusAllViewModel> viruses = this.virusService
+        List<VirusListViewModel> viruses = this.virusService
                 .getAllViruses()
                 .stream()
-                .map(virus -> this.modelMapper.map(virus, VirusAllViewModel.class))
+                .map(virus -> this.modelMapper.map(virus, VirusListViewModel.class))
                 .collect(Collectors.toList());
 
         modelAndView.addObject("viruses", viruses);

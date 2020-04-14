@@ -4,14 +4,14 @@ import residentevil.domain.entities.enums.Magnitude;
 
 import java.time.LocalDate;
 
-public class VirusAllViewModel {
+public class VirusListViewModel {
 
     private String id;
     private String name;
     private Magnitude magnitude;
     private LocalDate releasedOn;
 
-    public VirusAllViewModel() {
+    public VirusListViewModel() {
     }
 
     public String getId() {

@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import residentevil.domain.entities.Virus;
 import residentevil.domain.models.service.VirusServiceModel;
-import residentevil.domain.models.view.VirusAllViewModel;
 import residentevil.repositories.VirusRepository;
 import residentevil.services.VirusService;
 
@@ -23,10 +22,11 @@ public class VirusServiceImpl implements VirusService {
     }
 
     @Override
-    public void save(VirusServiceModel virus) {
+    public VirusServiceModel save(VirusServiceModel virus) {
         Virus virusEntity = this.modelMapper.map(virus, Virus.class);
 
-        this.virusRepository.save(virusEntity);
+        return this.modelMapper.map(this.virusRepository.saveAndFlush(virusEntity),
+                VirusServiceModel.class);
     }
 
     @Override

@@ -1,17 +1,16 @@
-package residentevil.domain.models.binding;
+package residentevil.domain.models.view;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import residentevil.domain.entities.enums.Creator;
 import residentevil.domain.entities.enums.Magnitude;
 import residentevil.domain.entities.enums.Mutation;
+import residentevil.domain.models.service.CapitalServiceModel;
 
-import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
-public class VirusAddBindingModel {
+public class VirusDetailsViewModel {
 
+    private String id;
     private String name;
     private String description;
     private String sideEffects;
@@ -23,13 +22,16 @@ public class VirusAddBindingModel {
     private Integer hoursUntilTurn;
     private Magnitude magnitude;
     private LocalDate releasedOn;
-    private Set<String> capitals;
+    private Set<CapitalShowViewModel> capitals;
 
-    public VirusAddBindingModel() {
+    public String getId() {
+        return id;
     }
 
-    @NotNull
-    @Size(min = 3, max = 10, message = "Invalid name")
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -38,8 +40,6 @@ public class VirusAddBindingModel {
         this.name = name;
     }
 
-    @NotNull
-    @Size(min = 5, max = 100, message = "Invalid description")
     public String getDescription() {
         return description;
     }
@@ -48,8 +48,6 @@ public class VirusAddBindingModel {
         this.description = description;
     }
 
-    @NotNull
-    @Size(max = 50, message = "Invalid side effects")
     public String getSideEffects() {
         return sideEffects;
     }
@@ -58,7 +56,6 @@ public class VirusAddBindingModel {
         this.sideEffects = sideEffects;
     }
 
-    @NotNull
     public Creator getCreator() {
         return creator;
     }
@@ -71,7 +68,7 @@ public class VirusAddBindingModel {
         return isDeadly;
     }
 
-    public void setIsDeadly(Boolean deadly) {
+    public void setDeadly(Boolean deadly) {
         isDeadly = deadly;
     }
 
@@ -79,11 +76,10 @@ public class VirusAddBindingModel {
         return isCurable;
     }
 
-    public void setIsCurable(Boolean curable) {
+    public void setCurable(Boolean curable) {
         isCurable = curable;
     }
 
-    @NotNull
     public Mutation getMutation() {
         return mutation;
     }
@@ -92,9 +88,6 @@ public class VirusAddBindingModel {
         this.mutation = mutation;
     }
 
-    @NotNull(message = "Turnover cannot be null")
-    @Min(value = 0, message = "Min value 0")
-    @Max(value = 100, message = "Max value 100")
     public Integer getTurnoverRate() {
         return turnoverRate;
     }
@@ -103,9 +96,6 @@ public class VirusAddBindingModel {
         this.turnoverRate = turnoverRate;
     }
 
-    @NotNull(message = "Hours until turn cannot be null")
-    @Min(value = 1, message = "Min value 1")
-    @Max(value = 12, message = "Max value 12")
     public Integer getHoursUntilTurn() {
         return hoursUntilTurn;
     }
@@ -122,8 +112,6 @@ public class VirusAddBindingModel {
         this.magnitude = magnitude;
     }
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Past(message = "Date should be in the past")
     public LocalDate getReleasedOn() {
         return releasedOn;
     }
@@ -132,11 +120,11 @@ public class VirusAddBindingModel {
         this.releasedOn = releasedOn;
     }
 
-    public Set<String> getCapitals() {
+    public Set<CapitalShowViewModel> getCapitals() {
         return capitals;
     }
 
-    public void setCapitals(Set<String> capitals) {
+    public void setCapitals(Set<CapitalShowViewModel> capitals) {
         this.capitals = capitals;
     }
 }
