@@ -3,7 +3,6 @@ package residentevil.domain.models.view;
 import residentevil.domain.entities.enums.Creator;
 import residentevil.domain.entities.enums.Magnitude;
 import residentevil.domain.entities.enums.Mutation;
-import residentevil.domain.models.service.CapitalServiceModel;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -64,7 +63,7 @@ public class VirusDetailsViewModel {
         this.creator = creator;
     }
 
-    public Boolean getDeadly() {
+    public Boolean getIsDeadly() {
         return isDeadly;
     }
 
@@ -72,7 +71,7 @@ public class VirusDetailsViewModel {
         isDeadly = deadly;
     }
 
-    public Boolean getCurable() {
+    public Boolean getIsCurable() {
         return isCurable;
     }
 

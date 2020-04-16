@@ -26,7 +26,7 @@ public class VirusEditBindingModel {
     private Integer hoursUntilTurn;
     private Magnitude magnitude;
     private LocalDate releasedOn;
-    private Set<CapitalServiceModel> capitals;
+    private Set<String> capitals;
 
     public VirusEditBindingModel() {
     }
@@ -125,11 +125,11 @@ public class VirusEditBindingModel {
         this.magnitude = magnitude;
     }
 
-    public Set<CapitalServiceModel> getCapitals() {
+    public Set<String> getCapitals() {
         return capitals;
     }
 
-    public void setCapitals(Set<CapitalServiceModel> capitals) {
+    public void setCapitals(Set<String> capitals) {
         this.capitals = capitals;
     }
 
