@@ -45,11 +45,31 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(UserServiceModel user) {
-        User userEntity =  this.modelMapper.map(user, User.class);
+        User userEntity = this.modelMapper.map(user, User.class);
         userEntity.setRoles(this.getAssignedRoles());
         userEntity.setPassword(this.encoder.encode(user.getPassword()));
 
         this.userRepository.save(userEntity);
+    }
+
+    @Override
+    public UserServiceModel getUserByUsername(String username) {
+        User user = this.userRepository
+                .findUserByUsername(username)
+                .orElse(null);
+
+        return user == null
+                ? null
+                : this.modelMapper.map(user, UserServiceModel.class);
+    }
+
+    @Override
+    public boolean isTakenUsername(String username) {
+        User user = this.userRepository
+                .findUserByUsername(username)
+                .orElse(null);
+
+        return user != null;
     }
 
     private Set<UserRole> getAssignedRoles() {
