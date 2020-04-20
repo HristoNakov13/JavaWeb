@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import residentevil.util.JwtUtils;
 import residentevil.util.ValidatorUtilImpl;
 
 @Configuration
@@ -31,6 +32,11 @@ public class AppBeanConfiguration {
     @Bean(name = "validator")
     public ValidatorUtilImpl validator() {
         return new ValidatorUtilImpl();
+    }
+
+    @Bean(name = "JwtUtils")
+    public JwtUtils jwtUtils() {
+        return new JwtUtils();
     }
 
 }

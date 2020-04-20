@@ -9,11 +9,13 @@ import org.springframework.stereotype.Service;
 import residentevil.domain.entities.BaseEntity;
 import residentevil.domain.entities.User;
 import residentevil.domain.entities.UserRole;
+import residentevil.domain.models.binding.Credentials;
 import residentevil.domain.models.service.UserServiceModel;
 import residentevil.repositories.UserRepository;
 import residentevil.repositories.UserRoleRepository;
 import residentevil.services.UserService;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -61,6 +63,28 @@ public class UserServiceImpl implements UserService {
         return user == null
                 ? null
                 : this.modelMapper.map(user, UserServiceModel.class);
+    }
+
+    @Override
+    public User getUserDetailsByUsername(String username) {
+        return this.userRepository.findUserByUsername(username).orElseThrow(() ->
+                new EntityNotFoundException(String.format("User '%s' not found.", username)));
+    }
+
+    @Override
+    public UserDetails login(Credentials credentials) {
+        User user = this.userRepository.findUserByUsername(credentials.getUsername())
+                .orElse(null);
+
+        if (user == null || !passwordsMatch(credentials.getPassword(), user.getPassword())) {
+            throw new UsernameNotFoundException("User not found.");
+        }
+
+        return user;
+    }
+
+    private boolean passwordsMatch(String userPassword, String loginPassword) {
+        return this.encoder.matches(loginPassword, userPassword);
     }
 
     @Override

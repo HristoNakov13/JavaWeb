@@ -3,11 +3,18 @@ package residentevil.web.restcontrollers;
 import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import residentevil.domain.models.binding.Credentials;
 import residentevil.domain.models.binding.UserRegisterBindingModel;
 import residentevil.domain.models.binding.UsernameValidationBindingModel;
 import residentevil.domain.models.service.UserServiceModel;
+import residentevil.domain.models.view.JwtResponse;
+import residentevil.domain.models.view.UserLoggedViewModel;
 import residentevil.services.UserService;
+import residentevil.util.JwtUtils;
 
 @RestController
 @RequestMapping("/api/users")
@@ -16,11 +23,16 @@ public class UsersController {
     private final UserService userService;
     private final Gson gson;
     private final ModelMapper modelMapper;
+    private AuthenticationManager authenticationManager;
+    private JwtUtils jwtUtils;
 
-    public UsersController(UserService userService, Gson gson, ModelMapper modelMapper) {
+    public UsersController(UserService userService, Gson gson, ModelMapper modelMapper, AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
         this.userService = userService;
         this.gson = gson;
         this.modelMapper = modelMapper;
+        this.authenticationManager = authenticationManager;
+
+        this.jwtUtils = jwtUtils;
     }
 
     @RequestMapping(path = "/validate", method = RequestMethod.POST)
@@ -51,5 +63,16 @@ public class UsersController {
 
         //lol
         return ResponseEntity.status(statusCode).body("{\"created\": true}");
+    }
+
+    @RequestMapping(path = "/login", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<JwtResponse> loginUser(@RequestBody Credentials credentials) {
+        this.authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword()));
+
+        UserDetails userDetails = this.userService.loadUserByUsername(credentials.getUsername());
+        String token = jwtUtils.generateToken(userDetails);
+
+        return ResponseEntity.status(200).body(new JwtResponse(token, userDetails));
     }
 }
