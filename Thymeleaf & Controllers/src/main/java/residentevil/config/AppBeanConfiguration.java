@@ -6,7 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import residentevil.util.JwtUtils;
+import residentevil.util.JwtUtil;
 import residentevil.util.ValidatorUtilImpl;
 
 @Configuration
@@ -35,8 +35,8 @@ public class AppBeanConfiguration {
     }
 
     @Bean(name = "JwtUtils")
-    public JwtUtils jwtUtils() {
-        return new JwtUtils();
+    public JwtUtil jwtUtils() {
+        return new JwtUtil();
     }
 
 }

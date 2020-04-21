@@ -36,13 +36,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = this.userRepository
-                .findUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found."));
-
         return this.userRepository
-                .findUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found."));
+                .findUserByUsername(username).orElse(null);
     }
 
     @Override
@@ -50,6 +45,7 @@ public class UserServiceImpl implements UserService {
         User userEntity = this.modelMapper.map(user, User.class);
         userEntity.setRoles(this.getAssignedRoles());
         userEntity.setPassword(this.encoder.encode(user.getPassword()));
+        userEntity.setEnabled(true);
 
         this.userRepository.save(userEntity);
     }
@@ -63,24 +59,6 @@ public class UserServiceImpl implements UserService {
         return user == null
                 ? null
                 : this.modelMapper.map(user, UserServiceModel.class);
-    }
-
-    @Override
-    public User getUserDetailsByUsername(String username) {
-        return this.userRepository.findUserByUsername(username).orElseThrow(() ->
-                new EntityNotFoundException(String.format("User '%s' not found.", username)));
-    }
-
-    @Override
-    public UserDetails login(Credentials credentials) {
-        User user = this.userRepository.findUserByUsername(credentials.getUsername())
-                .orElse(null);
-
-        if (user == null || !passwordsMatch(credentials.getPassword(), user.getPassword())) {
-            throw new UsernameNotFoundException("User not found.");
-        }
-
-        return user;
     }
 
     private boolean passwordsMatch(String userPassword, String loginPassword) {

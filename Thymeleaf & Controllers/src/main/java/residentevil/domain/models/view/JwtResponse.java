@@ -1,13 +1,11 @@
 package residentevil.domain.models.view;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
 public class JwtResponse {
 
     private String token;
-    private UserDetails user;
+    private UserLoggedViewModel user;
 
-    public JwtResponse(String token, UserDetails user) {
+    public JwtResponse(String token, UserLoggedViewModel user) {
         this.token = token;
         this.user = user;
     }
@@ -20,11 +18,11 @@ public class JwtResponse {
         this.token = token;
     }
 
-    public UserDetails getUser() {
+    public UserLoggedViewModel getUser() {
         return user;
     }
 
-    public void setUser(UserDetails user) {
+    public void setUser(UserLoggedViewModel user) {
         this.user = user;
     }
 }

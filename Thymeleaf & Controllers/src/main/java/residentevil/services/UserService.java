@@ -12,9 +12,5 @@ public interface UserService extends UserDetailsService {
 
     UserServiceModel getUserByUsername(String username);
 
-    User getUserDetailsByUsername(String username);
-
-    UserDetails login(Credentials user);
-
     boolean isTakenUsername(String username);
 }

@@ -14,7 +14,7 @@ import residentevil.domain.models.service.UserServiceModel;
 import residentevil.domain.models.view.JwtResponse;
 import residentevil.domain.models.view.UserLoggedViewModel;
 import residentevil.services.UserService;
-import residentevil.util.JwtUtils;
+import residentevil.util.JwtUtil;
 
 @RestController
 @RequestMapping("/api/users")
@@ -24,15 +24,15 @@ public class UsersController {
     private final Gson gson;
     private final ModelMapper modelMapper;
     private AuthenticationManager authenticationManager;
-    private JwtUtils jwtUtils;
+    private JwtUtil jwtUtil;
 
-    public UsersController(UserService userService, Gson gson, ModelMapper modelMapper, AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
+    public UsersController(UserService userService, Gson gson, ModelMapper modelMapper, AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.userService = userService;
         this.gson = gson;
         this.modelMapper = modelMapper;
         this.authenticationManager = authenticationManager;
 
-        this.jwtUtils = jwtUtils;
+        this.jwtUtil = jwtUtil;
     }
 
     @RequestMapping(path = "/validate", method = RequestMethod.POST)
@@ -66,13 +66,14 @@ public class UsersController {
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<JwtResponse> loginUser(@RequestBody Credentials credentials) {
+    public ResponseEntity<JwtResponse> loginUser(@RequestBody Credentials credentials) throws Exception {
         this.authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword()));
 
         UserDetails userDetails = this.userService.loadUserByUsername(credentials.getUsername());
-        String token = jwtUtils.generateToken(userDetails);
+        String token = jwtUtil.generateToken(userDetails);
+        UserLoggedViewModel userLoggedViewModel = this.modelMapper.map(userDetails, UserLoggedViewModel.class);
 
-        return ResponseEntity.status(200).body(new JwtResponse(token, userDetails));
+        return ResponseEntity.status(200).body(new JwtResponse(token, userLoggedViewModel));
     }
 }
