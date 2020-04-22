@@ -17,7 +17,7 @@ public class JwtUtil {
     //Secret cannot be less than a certain length
     //When it was set as "asd" I got an exception saying secret byte array cannot be empty or null
     //Once I changed it to a longer String the exception went away. Not sure what the required length is
-    private String DEMO_SECRET = "qwertyasd";
+    private final String DEMO_SECRET = "qwertyasd";
     public static final long JWT_TOKEN_VALIDITY = 3 * 60 * 60;
 
     public String getUsernameFromToken(String token) {

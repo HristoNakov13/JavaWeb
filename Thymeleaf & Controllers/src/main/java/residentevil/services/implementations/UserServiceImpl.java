@@ -22,10 +22,10 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
-    private UserRoleRepository userRoleRepository;
-    private ModelMapper modelMapper;
-    private BCryptPasswordEncoder encoder;
+    private final UserRepository userRepository;
+    private final UserRoleRepository userRoleRepository;
+    private final ModelMapper modelMapper;
+    private final BCryptPasswordEncoder encoder;
 
     public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository, ModelMapper modelMapper, BCryptPasswordEncoder encoder) {
         this.userRepository = userRepository;

@@ -11,10 +11,12 @@ import residentevil.domain.models.binding.Credentials;
 import residentevil.domain.models.binding.UserRegisterBindingModel;
 import residentevil.domain.models.binding.UsernameValidationBindingModel;
 import residentevil.domain.models.service.UserServiceModel;
-import residentevil.domain.models.view.JwtResponse;
 import residentevil.domain.models.view.UserLoggedViewModel;
 import residentevil.services.UserService;
 import residentevil.util.JwtUtil;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/users")
@@ -23,8 +25,8 @@ public class UsersController {
     private final UserService userService;
     private final Gson gson;
     private final ModelMapper modelMapper;
-    private AuthenticationManager authenticationManager;
-    private JwtUtil jwtUtil;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
     public UsersController(UserService userService, Gson gson, ModelMapper modelMapper, AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.userService = userService;
@@ -65,8 +67,13 @@ public class UsersController {
         return ResponseEntity.status(statusCode).body("{\"created\": true}");
     }
 
+    //why tf is the cookie not being set in the browser
+    //it is present in the response header and everything looks in order
+
+    //well f me sideways the problem was theres a missing line in the login request header
+    //namely - "credentials: 'include'"
     @RequestMapping(path = "/login", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<JwtResponse> loginUser(@RequestBody Credentials credentials) throws Exception {
+    public ResponseEntity<UserLoggedViewModel> loginUser(@RequestBody Credentials credentials, HttpServletResponse res) throws Exception {
         this.authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword()));
 
@@ -74,6 +81,12 @@ public class UsersController {
         String token = jwtUtil.generateToken(userDetails);
         UserLoggedViewModel userLoggedViewModel = this.modelMapper.map(userDetails, UserLoggedViewModel.class);
 
-        return ResponseEntity.status(200).body(new JwtResponse(token, userLoggedViewModel));
+        Cookie cookie = new Cookie("JWT", token);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        res.setHeader("Access-Control-Allow-Credentials", "true");
+        res.addCookie(cookie);
+
+        return ResponseEntity.status(200).body(userLoggedViewModel);
     }
 }

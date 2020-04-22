@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 @Service
 public class CapitalServiceImpl implements residentevil.services.CapitalService {
 
-    private CapitalRepository capitalRepository;
-    private ModelMapper modelMapper;
+    private final CapitalRepository capitalRepository;
+    private final ModelMapper modelMapper;
 
     public CapitalServiceImpl(CapitalRepository capitalRepository, ModelMapper modelMapper) {
         this.capitalRepository = capitalRepository;
