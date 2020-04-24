@@ -2,6 +2,7 @@ package residentevil.web.restcontrollers;
 
 import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +17,9 @@ import residentevil.services.UserService;
 import residentevil.util.JwtUtil;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/users")
@@ -88,5 +91,25 @@ public class UsersController {
         res.addCookie(cookie);
 
         return ResponseEntity.status(200).body(userLoggedViewModel);
+    }
+
+    @RequestMapping(value = "/auth", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<UserLoggedViewModel> authUser(HttpServletRequest request) {
+        Cookie jwtCookie = request.getCookies() == null
+                ? null
+                : Arrays.stream(request.getCookies())
+                .filter(cookie -> cookie.getName().equals("JWT"))
+                .findFirst()
+                .orElse(null);
+
+        UserDetails userDetails = jwtCookie == null
+                ? null
+                : this.userService.loadUserByUsername(jwtUtil.getUsernameFromToken(jwtCookie.getValue()));
+
+        if (userDetails == null || !this.jwtUtil.validateToken(jwtCookie.getValue(), userDetails)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        return ResponseEntity.ok(this.modelMapper.map(userDetails, UserLoggedViewModel.class));
     }
 }

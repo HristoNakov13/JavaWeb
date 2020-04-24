@@ -11,30 +11,38 @@ import residentevil.util.JwtUtil;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    private JwtUtil jwtUtil;
-    private UserService userService;
+    private final JwtUtil jwtUtil;
+    private final UserService userService;
 
     public JwtRequestFilter(JwtUtil jwtUtil, UserService userService) {
         this.jwtUtil = jwtUtil;
         this.userService = userService;
     }
 
+    //opted to
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        Cookie jwtCookie = request.getCookies() == null
+                ? null
+                : Arrays.stream(request.getCookies())
+                .filter(cookie -> cookie.getName().equals("JWT"))
+                .findFirst()
+                .orElse(null);
 
-        String authorizationHeader = request.getHeader("Authorization");
         String username = null;
         String jwt = null;
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            jwt = authorizationHeader.substring(7);
+        if (jwtCookie != null) {
+            jwt = jwtCookie.getValue();
             username = jwtUtil.getUsernameFromToken(jwt);
         }
 
